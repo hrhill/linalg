@@ -13,7 +13,8 @@
 #include <boost/numeric/bindings/ublas.hpp>
 #include <boost/numeric/bindings/blas.hpp>
 
-#include "ftl/tools/time_it.h"
+#include "linalg.hpp"
+#include "time_it.hpp"
 
 namespace ublas = boost::numeric::ublas;
 namespace blas = boost::numeric::bindings::blas;
@@ -29,7 +30,6 @@ typedef mtl::dense2D<double,
 typedef mtl::compressed2D<double,
     mtl::matrix::parameters<mtl::tag::col_major>> mtl_sparse_matrix_t;
 #endif
-
 
 #ifdef HAVE_BLAZE
 #include <blaze/Math.h>
@@ -57,7 +57,7 @@ void gemm(const int n){
     std::cout << "ublas::prod        : ";
     time_it([&A, &B, &C](){noalias(C) = ublas::prod(A, B);});
     std::cout << "blas::gemm (ublas) : ";
-    time_it([&A, &B, &C](){blas::gemm(1.0, A, B, 0.0, C);});
+    time_it([&A, &B, &C](){linalg::gemm(1.0, A, B, 0.0, C);});
 
 #ifdef HAVE_MTL
     mtl_matrix_t Ap(n, n);
@@ -71,7 +71,7 @@ void gemm(const int n){
         }
     }
     std::cout << "blas::gemm (mtl  ) : ";
-    time_it([&Ap, &Bp, &Cp](){blas::gemm(1.0, Ap, Bp, 0.0, Cp);});
+    time_it([&Ap, &Bp, &Cp](){linalg::gemm(1.0, Ap, Bp, 0.0, Cp);});
 #endif
 
 #ifdef HAVE_BLAZE

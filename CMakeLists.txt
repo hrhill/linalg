@@ -23,4 +23,5 @@ find_package(Blaze)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 add_subdirectory(test)
 add_subdirectory(example)
+add_subdirectory(benchmark)
 
