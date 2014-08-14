@@ -25,3 +25,18 @@ add_subdirectory(test)
 add_subdirectory(example)
 add_subdirectory(benchmark)
 
+#------------------------------------ Documentation setup ---------------------
+if(DOXYGEN_FOUND)
+configure_file(${PROJECT_SOURCE_DIR}/Doxyfile.in
+               ${PROJECT_BINARY_DIR}/Doxyfile)
+add_custom_target(doc ${DOXYGEN_EXECUTABLE}
+    ${PROJECT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+    COMMENT "Generating API documentation with Doxygen" VERBATIM)
+endif(DOXYGEN_FOUND)
+
+#------------------------------------ Installation details --------------------
+set(HEADER_INST_DIR "${CMAKE_INSTALL_PREFIX}/include")
+
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/include/"
+        DESTINATION "${HEADER_INST_DIR}"
+        FILES_MATCHING PATTERN "*.hpp")
