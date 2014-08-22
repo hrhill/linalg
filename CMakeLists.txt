@@ -5,14 +5,13 @@ project(LINEAR_ALGEBRA)
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CTest)
+include(ExternalProject)
 
-#set(CMAKE_CXX_COMPILER "clang++")
-set(BUILD_SHARED_LIBS ON)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${LINEAR_ALGEBRA_SOURCE_DIR}/modules/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${LINEAR_ALGEBRA_SOURCE_DIR}/build/")
 set(CMAKE_CXX_FLAGS  "-Wall -pedantic -Wfatal-errors -std=c++1y")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
-find_package(Boost 1.50 COMPONENTS test_exec_monitor program_options REQUIRED)
+find_package(Boost 1.50 COMPONENTS test_exec_monitor REQUIRED)
 find_package(Doxygen)
 find_package(BLAS)
 find_package(LAPACK)
@@ -24,6 +23,14 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 add_subdirectory(test)
 add_subdirectory(example)
 add_subdirectory(benchmark)
+
+ExternalProject_Add(numeric_bindings
+    GIT_REPOSITORY "git@github.com:hrhill/numeric_bindings.git"
+    PREFIX "deps/numeric_bindings"
+    BINARY_DIR ${PROJ_BINARY_DIR}
+    CMAKE_ARGS
+      -DCMAKE_INSTALL_PREFIX:PATH=${PROJECT_BINARY_DIR}
+)
 
 #------------------------------------ Documentation setup ---------------------
 if(DOXYGEN_FOUND)
