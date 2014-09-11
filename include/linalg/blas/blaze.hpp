@@ -22,8 +22,12 @@ gemv(const T1& a,
      const T1& b,
      VectorType<T2, TF>& res)
 {
-    res = b * res;
-    res += a * m * v;
+    if (b == 0){
+        res = a * m * v;
+    }else{
+        res = b * res;
+        res += a * m * v;
+    }
 }
 
 /// gemm
@@ -39,9 +43,12 @@ gemm(const T& a,
         const T& b,
         MatrixType<T, SO>& C)
 {
-    if (b != 0.0)
+    if (b == 0.0){
+        C = a * A * B;
+    }else{
         C = b * C;
-    C = a * A * B;
+        C += a * A * B;
+    }
 }
 
 } //ns linalg
