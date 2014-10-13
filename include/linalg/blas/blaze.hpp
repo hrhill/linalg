@@ -39,8 +39,9 @@ gemm(const T& a,
         const T& b,
         MatrixType<T, SO>& C)
 {
-    C = b * C;
-    C += a * A * B;
+    if (b != 0.0)
+        C = b * C;
+    C = a * A * B;
 }
 
 } //ns linalg
