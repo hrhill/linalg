@@ -32,16 +32,20 @@ gemv(const T1& a,
 
 /// gemm
 template <
-    template <typename, bool> class MatrixType,
+    template <typename, bool> class MatrixType1,
     typename T,
-    bool SO>
+    bool SO1,
+    template <typename, bool> class MatrixType2,
+    bool SO2,
+    template <typename, bool> class MatrixType3,
+    bool SO3>
 inline
 void
 gemm(const T& a,
-        const MatrixType<T, SO>& A,
-        const MatrixType<T, SO>& B,
+        const MatrixType1<T, SO1>& A,
+        const MatrixType2<T, SO2>& B,
         const T& b,
-        MatrixType<T, SO>& C)
+        MatrixType3<T, SO3>& C)
 {
     if (b == 0.0){
         C = a * A * B;
