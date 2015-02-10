@@ -20,7 +20,8 @@ find_package(MTL)
 find_package(Blaze)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include"
-                    "${Boost_INCLUDE_DIR}")
+                    "${Boost_INCLUDE_DIR}"
+                    "${BLAZE_INCLUDE_DIR}")
 link_directories("${Boost_LIBRARY_DIR}")
 
 add_subdirectory(test)

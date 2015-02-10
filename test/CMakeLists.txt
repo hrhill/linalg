@@ -4,8 +4,8 @@ set(TESTS norms
           factorisation
           operations)
 
-set(LINK_LIBS ${LAPACK_LIBRARIES}
-              ${BLAS_LIBRARIES}
+set(LINK_LIBS ${BLAS_LIBRARIES}
+              ${LAPACK_LIBRARIES}
               ${Boost_TEST_EXEC_MONITOR_LIBRARY})
 
 foreach(test ${TESTS})
