@@ -24,7 +24,7 @@ ldlt(Matrix A)
 {
     using namespace boost::numeric::ublas;
 
-    const int n = linalg::num_rows(A);
+    const size_t n = linalg::num_rows(A);
 
     Matrix L(n, n, 0.0);
     Matrix c(n, n, 0.0);
