@@ -14,12 +14,12 @@ namespace detail{
 
 template <typename Matrix>
 auto
-calculate_theta(const Matrix& c, const int j)
+calculate_theta(const Matrix& c, const size_t j)
 {
-    const int n = linalg::num_rows(c);
+    const size_t n = linalg::num_rows(c);
     auto theta(0.0);
     if (j < n ){
-        for (int i = j + 1; i < n; ++i){
+        for (size_t i = j + 1; i < n; ++i){
             theta = std::max(theta, c(i, j));
         }
     }
@@ -93,7 +93,7 @@ gmw81(Matrix G)
         }
         for (size_t i = j + 1; i < n; ++i){
             c(i, j) = G(i, j);
-            for (int s = 0; s < j; ++s){
+            for (size_t s = 0; s < j; ++s){
                 c(i, j) -= L(j, s) * c(i, s);
             }
         }
