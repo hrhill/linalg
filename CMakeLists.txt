@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 2.6)
 project(LINALG)
 
@@ -6,6 +5,8 @@ include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CTest)
 include(ExternalProject)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${LINALG_SOURCE_DIR}/build/")
 
 find_package(Boost 1.50 COMPONENTS test_exec_monitor REQUIRED)
 find_package(Doxygen)
@@ -15,7 +16,6 @@ find_package(UBlas)
 find_package(MTL)
 find_package(Blaze)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${LINALG_SOURCE_DIR}/build/")
 set(CMAKE_CXX_FLAGS  "-Wall -Werror -pedantic -Wfatal-errors -std=c++1y")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
