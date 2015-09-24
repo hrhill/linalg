@@ -1,8 +1,6 @@
 #ifndef LINALG_OPERATIONS_BLAZE_HPP_
 #define LINALG_OPERATIONS_BLAZE_HPP_
 
-#if HAVE_BLAZE
-
 #include "linalg/std_traits.hpp"
 
 #include <blaze/Math.h>
@@ -146,4 +144,3 @@ auto norm_infinity(const blaze::DynamicVector<T, TF>& x)
 
 #endif
 
-#endif
