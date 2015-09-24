@@ -18,11 +18,12 @@
 using namespace std;
 using namespace linalg;
 
+const double threshold = sqrt(std::numeric_limits<double>::epsilon());
+
 template <typename Vector, typename Matrix>
-int cholesky_tests()
+void cholesky_tests()
 {
     const int n = 5;
-    const double threshold = sqrt(std::numeric_limits<double>::epsilon());
 
     mt19937 rng(std::time(0));
     auto M = generate_spd_matrix<Matrix>(rng, n);
@@ -64,32 +65,65 @@ int cholesky_tests()
     // Check the determinants are 1
     BOOST_CHECK_CLOSE(cholesky_determinant(id1), 1.0, threshold);
     BOOST_CHECK_CLOSE(cholesky_determinant(id2), 1.0, threshold);
-    return 0;
 }
 
-BOOST_AUTO_TEST_CASE(ublas_cholesky_tests)
+template <typename Vector, typename Matrix>
+void lu_tests()
 {
-    std::cout << "Testing ublas\n";
+    const int n = 3;
+
+    mt19937 rng(std::time(0));
+    auto M = generate_spd_matrix<Matrix>(rng, n);
+    auto invM = M;
+
+    std::vector<int> ipiv(n);
+
+    linalg::getrf(invM, ipiv);
+    linalg::getri(invM, ipiv);
+
+    Matrix idl(n, n, 0.0);
+    Matrix idr(n, n, 0.0);
+
+    linalg::gemm(1.0, M   , invM, 0.0, idl);
+    linalg::gemm(1.0, invM, M   , 0.0, idr);
+
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j){
+            BOOST_CHECK(fabs(idl(i, j) - idr(i, j)) <= threshold);
+            BOOST_CHECK(fabs(idl(i, j) - static_cast<double>(i == j)) <= threshold);
+        }
+    }
+
+    // test solver
+    auto x = generate_vector<Vector>(rng, n);
+    Vector y(n);
+    gemv(1.0, M, x, 0.0, y);
+
+    Vector xsol = lu_solve(M, y);
+
+    BOOST_CHECK(norm_infinity(static_cast<const Vector&>(x - xsol)) <= 1e-04);
+}
+
+BOOST_AUTO_TEST_CASE(ublas_lapack_tests)
+{
+    BOOST_TEST_MESSAGE("Testing ublas");
     typedef boost::numeric::ublas::vector<double> vector_t;
     typedef boost::numeric::ublas::matrix<double,
             boost::numeric::ublas::column_major> matrix_t;
 
-    int flag = cholesky_tests<vector_t, matrix_t>();
-    BOOST_CHECK_EQUAL(flag, 0);
+    cholesky_tests<vector_t, matrix_t>();
+    lu_tests<vector_t, matrix_t>();
 }
 
-#ifdef HAVE_BLAZE
-#include <blaze/Math.h>
-
-BOOST_AUTO_TEST_CASE(blaze_cholesky_tests)
+BOOST_AUTO_TEST_CASE(blaze_lapack_tests)
 {
-    std::cout << "Testing blaze\n";
+    BOOST_TEST_MESSAGE("Testing blaze");
     typedef blaze::DynamicVector<double> vector_t;
     typedef blaze::DynamicMatrix<double, blaze::columnMajor> matrix_t;
 
-    int flag = cholesky_tests<vector_t, matrix_t>();
-    BOOST_CHECK_EQUAL(flag, 0);
+    cholesky_tests<vector_t, matrix_t>();
+    lu_tests<vector_t, matrix_t>();
 }
 
-#endif
 

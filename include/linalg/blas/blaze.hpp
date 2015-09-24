@@ -1,8 +1,6 @@
 #ifndef LINALG_BLAS_BLAZE_HPP_
 #define LINALG_BLAS_BLAZE_HPP_
 
-#if HAVE_BLAZE
-
 #include <blaze/Math.h>
 
 namespace linalg{
@@ -56,7 +54,5 @@ gemm(const T& a,
 }
 
 } //ns linalg
-
-#endif
 
 #endif

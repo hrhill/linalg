@@ -74,13 +74,32 @@ cholesky_solve(MatrixType a, const VectorType& y)
     return linalg::column(y1, 0);
 }
 
+template <typename MatrixType, typename VectorType>
+VectorType
+lu_solve(MatrixType a, const VectorType& y)
+{
+    const int n = linalg::size(y);
+    MatrixType y1(n, 1, 0);
+    column(y1, 0) = y;
+    std::vector<int> ipiv(n);
+    int info = getrf(a, ipiv);
+    if (info != 0){
+        throw std::runtime_error(
+            "getrf failed in lu_solve " + std::to_string(info));
+    }
+
+    getrs(a, ipiv, y1);
+    return linalg::column(y1, 0);
+
+}
+
 template <typename MatrixType>
 MatrixType
 cholesky_invert(MatrixType a)
 {
     // factorize
     int info = potrf(a);
-    if (info == -1){
+    if (info != 0){
         throw std::runtime_error(
             "potrf failed in cholesky_invert " + std::to_string(info));
     }

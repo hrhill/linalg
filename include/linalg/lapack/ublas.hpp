@@ -17,6 +17,9 @@
 #include <boost/numeric/bindings/lapack/computational/potrs.hpp>
 #include <boost/numeric/bindings/lapack/computational/potri.hpp>
 #include <boost/numeric/bindings/lapack/computational/geqrf.hpp>
+#include <boost/numeric/bindings/lapack/computational/getrf.hpp>
+#include <boost/numeric/bindings/lapack/computational/getri.hpp>
+#include <boost/numeric/bindings/lapack/computational/getrs.hpp>
 #include <boost/numeric/bindings/lapack/computational/tptri.hpp>
 #include <boost/numeric/bindings/lapack/driver/posv.hpp>
 
@@ -73,12 +76,11 @@ potri(Matrix& a)
     return boost::numeric::bindings::lapack::potri(ia);
 }
 
-template <typename Matrix>
-int
-geqrf(Matrix& A, std::vector<double>& tau)
-{
-    return boost::numeric::bindings::lapack::geqrf(A, tau);
-}
+using boost::numeric::bindings::lapack::geqrf;
+
+using boost::numeric::bindings::lapack::getrf;
+using boost::numeric::bindings::lapack::getri;
+using boost::numeric::bindings::lapack::getrs;
 
 } // ns linalg
 

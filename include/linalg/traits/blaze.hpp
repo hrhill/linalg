@@ -1,8 +1,6 @@
 #ifndef LINALG_TRAITS_BLAZE_HPP_
 #define LINALG_TRAITS_BLAZE_HPP_
 
-#if HAVE_BLAZE
-
 #include <blaze/Math.h>
 
 namespace linalg{
@@ -17,7 +15,5 @@ struct associated_matrix<blaze::DynamicVector<T>>
 };
 
 } // ns linalg
-
-#endif
 
 #endif
