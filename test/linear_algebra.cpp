@@ -107,7 +107,7 @@ void lu_tests()
 
 BOOST_AUTO_TEST_CASE(ublas_lapack_tests)
 {
-    std::cout << "Testing ublas\n";
+    BOOST_TEST_MESSAGE("Testing ublas");
     typedef boost::numeric::ublas::vector<double> vector_t;
     typedef boost::numeric::ublas::matrix<double,
             boost::numeric::ublas::column_major> matrix_t;
@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE(ublas_lapack_tests)
 
 BOOST_AUTO_TEST_CASE(blaze_lapack_tests)
 {
-    std::cout << "Testing blaze\n";
+    BOOST_TEST_MESSAGE("Testing blaze");
     typedef blaze::DynamicVector<double> vector_t;
     typedef blaze::DynamicMatrix<double, blaze::columnMajor> matrix_t;
 
