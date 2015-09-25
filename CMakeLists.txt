@@ -6,22 +6,16 @@ include(CheckLibraryExists)
 include(CTest)
 include(ExternalProject)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${LINALG_SOURCE_DIR}/build/")
-
 find_package(Boost 1.50 COMPONENTS test_exec_monitor REQUIRED)
 find_package(Doxygen)
 find_package(BLAS)
 find_package(LAPACK)
-find_package(UBlas)
-find_package(MTL)
-find_package(Blaze)
 
 set(CMAKE_CXX_FLAGS  "-Wall -Werror -pedantic -Wfatal-errors -std=c++1y")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include"
-                    "${Boost_INCLUDE_DIR}"
-                    "${BLAZE_INCLUDE_DIR}")
+                    "${Boost_INCLUDE_DIR}")
 link_directories("${Boost_LIBRARY_DIR}")
 
 add_subdirectory(test)
