@@ -82,6 +82,9 @@ void lu_tests()
     linalg::gemm(1.0, M   , invM, 0.0, idl);
     linalg::gemm(1.0, invM, M   , 0.0, idr);
 
+    BOOST_CHECK_CLOSE(lu_determinant(M),
+                        1.0/lu_determinant(invM), threshold);
+
     for (int i = 0; i < n; ++i)
     {
         for (int j = 0; j < n; ++j){
@@ -98,6 +101,10 @@ void lu_tests()
     Vector xsol = lu_solve(M, y);
 
     BOOST_CHECK(norm_infinity(static_cast<const Vector&>(x - xsol)) <= 1e-04);
+
+    // Check the determinants are 1
+    BOOST_CHECK_CLOSE(lu_determinant(idl), 1.0, threshold);
+    BOOST_CHECK_CLOSE(lu_determinant(idr), 1.0, threshold);
 }
 
 BOOST_AUTO_TEST_CASE(ublas_lapack_tests)
