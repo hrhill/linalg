@@ -115,6 +115,27 @@ cholesky_invert(MatrixType a)
 }
 
 template <typename MatrixType>
+MatrixType
+lu_invert(MatrixType a)
+{
+    const int n = linalg::num_rows(a);
+    std::vector<int> ipiv(n);
+    int info = getrf(a, ipiv);
+    if (info != 0){
+        throw std::runtime_error(
+            "getrf failed in lu_invert " + std::to_string(info));
+    }
+
+    info = getri(a, ipiv);
+    if (info != 0){
+        throw std::runtime_error(
+            "getri failed in lu_invert " + std::to_string(info));
+    }
+    return a;
+}
+
+
+template <typename MatrixType>
 double
 log_cholesky_determinant(MatrixType a){
 
