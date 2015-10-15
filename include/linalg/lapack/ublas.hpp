@@ -1,6 +1,8 @@
 #ifndef LINALG_LAPACK_UBLAS_HPP_
 #define LINALG_LAPACK_UBLAS_HPP_
 
+#define BOOST_NUMERIC_BINDINGS_LAPACK_CLAPACK
+
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/vector_proxy.hpp>
