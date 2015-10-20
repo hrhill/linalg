@@ -2,7 +2,8 @@
 set(TESTS norms
           linear_algebra
           factorisation
-          operations)
+          operations
+          special_types)
 
 set(LINK_LIBS ${BLAS_LIBRARIES}
               ${LAPACK_LIBRARIES}

@@ -46,7 +46,7 @@ int max_magnitude_diagonal_check()
     const int max_id = 3;
     const double max_value = 10;
 
-    Matrix m = linalg::identity_matrix<Matrix>(n);
+    Matrix m = linalg::eye(n);
     m(max_id, max_id) = max_value;
 
     auto x = linalg::factorisations::tools::max_magnitude_diagonal(m);
@@ -61,7 +61,7 @@ int identity_matrix_check()
 {
     const int ndim = 5;
 
-    Matrix A = linalg::identity_matrix<Matrix>(ndim);
+    Matrix A = linalg::identity_matrix(ndim);
     Matrix L = linalg::factorisations::gmw81(A);
     const int n = linalg::num_rows(L);
     for (int i = 0; i < n; ++i){
@@ -81,7 +81,7 @@ int scaled_identity_matrix_check()
     auto rnorm = std::bind(std::normal_distribution<>(0, 1), std::ref(rng));
     const double d = exp(rnorm());
 
-    Matrix A = d * linalg::identity_matrix<Matrix>(ndim);
+    Matrix A = d * linalg::eye(ndim);
     Matrix L = linalg::factorisations::gmw81(A);
     const int n = linalg::num_rows(L);
     for (int i = 0; i < n; ++i){
