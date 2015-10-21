@@ -17,6 +17,7 @@
 #include "linalg/factorisations/ldlt.hpp"
 
 #include "linalg/special_matrices.hpp"
+#include "linalg/determinants.hpp"
 
 namespace linalg{
 
@@ -144,13 +145,7 @@ log_cholesky_determinant(MatrixType a){
     if (info == -1)
         throw std::runtime_error(
             "potrf failed in log_cholesky_determinant" + std::to_string(info));
-
-    double logd(0.0);
-    for (size_t i = 0; i < linalg::num_rows(a); ++i){
-        logd += log(a(i, i));
-    }
-    // return the square since |A| = |L|^2
-    return  2.0 * logd;
+    return log(potrfdet(a));
 }
 
 template <typename MatrixType>
@@ -173,15 +168,7 @@ lu_determinant(MatrixType a){
         throw std::runtime_error(
             "getrf failed in lu_determinant" + std::to_string(info));
 
-    double det(1.0);
-    for (size_t i = 0; i < linalg::num_rows(a); ++i){
-        if (ipiv[i] == i){
-            det *= a(i, i);
-        }else{
-            det *= -a(i, i);
-        }
-    }
-    return det;
+    return getrfdet(a, ipiv);
 }
 
 
