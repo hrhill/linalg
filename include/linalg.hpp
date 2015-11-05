@@ -64,13 +64,7 @@ select_upper_triangular(const Matrix& m){
 template <typename Matrix>
 Matrix make_symmetric(Matrix a)
 {
-    for (size_t i = 0; i < linalg::num_rows(a); ++i)
-    {
-        for (size_t j = 0; j < i; ++j)
-        {
-            a(j, i) = a(i, j);
-        }
-    }
+    mksym(a);
     return a;
 }
 
