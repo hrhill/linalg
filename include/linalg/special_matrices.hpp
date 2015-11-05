@@ -7,7 +7,7 @@
 
 namespace linalg{
 
-identity_matrix
+inline identity_matrix
 eye(const int n)
 {
     return identity_matrix(n);

@@ -61,6 +61,19 @@ select_upper_triangular(const Matrix& m){
     return upper;
 }
 
+template <typename Matrix>
+Matrix make_symmetric(Matrix a)
+{
+    for (size_t i = 0; i < linalg::num_rows(a); ++i)
+    {
+        for (size_t j = 0; j < i; ++j)
+        {
+            a(j, i) = a(i, j);
+        }
+    }
+    return a;
+}
+
 template <typename MatrixType, typename VectorType>
 VectorType
 cholesky_solve(MatrixType a, const VectorType& y)
@@ -106,13 +119,7 @@ cholesky_invert(MatrixType a)
     }
 
     potri(a);
-    // make symmetric
-    for (size_t i = 0; i < linalg::num_rows(a); ++i){
-        for (size_t j = 0; j < i; ++j){
-            a(j, i) = a(i, j);
-        }
-    }
-    return a;
+    return make_symmetric(a);
 }
 
 template <typename MatrixType>
