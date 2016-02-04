@@ -96,10 +96,17 @@ auto inner_prod(const blaze::DynamicVector<T, TF1>& x, const blaze::DynamicVecto
 }
 
 template <typename T, bool TF1, bool TF2>
-auto outer_prod(const blaze::DynamicVector<T, TF1>& x, const blaze::DynamicVector<T, TF2>& y)
+blaze::DynamicMatrix<double>
+outer_prod(const blaze::DynamicVector<T, TF1>& x, const blaze::DynamicVector<T, TF2>& y)
 {
-    if (TF1 == TF2)
-        return x * trans(y);
+    blaze::DynamicMatrix<double> m(x.size(), y.size());
+    for (int i = 0; i < x.size(); ++i)
+    {
+        for (int j = 0; j < y.size(); ++j){
+            m(i, j) = x[i] * y[j];
+        }
+    }
+    return m;
 }
 
 

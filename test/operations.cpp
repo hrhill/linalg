@@ -45,3 +45,34 @@ BOOST_AUTO_TEST_CASE(blaze_norm_tests)
     BOOST_CHECK_EQUAL((size_test<vector_t, matrix_t>()), 0);
 }
 
+BOOST_AUTO_TEST_CASE(blaze_outer_prod)
+{
+    // Default vectors
+    blaze::DynamicVector<double> x(3);
+    blaze::DynamicVector<double, blaze::rowVector> y(3);
+    x[0] = 1;
+    x[1] = 2;
+    x[2] = 3;
+
+    y[0] = 10;
+    y[1] = 20;
+    y[2] = 30;
+
+    blaze::DynamicMatrix<double> m = linalg::outer_prod(x, y);
+    for (int i = 0; i < 3; ++i)
+    {
+        for (int j = 0; j < 3; ++j)
+        {
+            BOOST_CHECK_EQUAL(m(i, j), (i + 1) * (10 * (j + 1)));
+        }
+    }
+
+    blaze::DynamicMatrix<double> p = linalg::outer_prod(x, x);
+    for (int i = 0; i < 3; ++i)
+    {
+        for (int j = 0; j < 3; ++j)
+        {
+            BOOST_CHECK_EQUAL(p(i, j), (i + 1) * (j + 1));
+        }
+    }
+}
