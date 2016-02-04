@@ -4,6 +4,8 @@
 #include <limits>
 #include <ctime>
 
+#include <blaze/Math.h>
+
 #include <boost/test/unit_test.hpp>
 #include <boost/test/test_tools.hpp>
 #include <boost/test/floating_point_comparison.hpp>
@@ -73,9 +75,6 @@ BOOST_AUTO_TEST_CASE(ublas_norm_tests)
     BOOST_CHECK_EQUAL((expr_tests<vector_t, matrix_t>()), 0);
 }
 
-#ifdef HAVE_BLAZE
-#include <blaze/Math.h>
-
 BOOST_AUTO_TEST_CASE(blaze_norm_tests)
 {
     std::cout << "Testing blaze\n";
@@ -85,6 +84,4 @@ BOOST_AUTO_TEST_CASE(blaze_norm_tests)
     BOOST_CHECK_EQUAL((zero_tests<vector_t, matrix_t>()), 0);
     BOOST_CHECK_EQUAL((one_tests<vector_t, matrix_t>()), 0);
 }
-
-#endif
 

@@ -8,6 +8,8 @@
 
 #include <boost/mpl/list.hpp>
 
+#include <blaze/Math.h>
+
 #define BOOST_TEST_MODULE factorisation_test
 #include <boost/test/unit_test.hpp>
 #include <boost/test/floating_point_comparison.hpp>
@@ -143,9 +145,6 @@ BOOST_AUTO_TEST_CASE(ublas_factorisation_tests)
     BOOST_CHECK_EQUAL((all_tests<matrix_t>()), 0);
 }
 
-#ifdef HAVE_BLAZE
-#include <blaze/Math.h>
-
 BOOST_AUTO_TEST_CASE(blaze_factorisation_tests)
 {
     std::cout << "Testing blaze\n";
@@ -153,5 +152,3 @@ BOOST_AUTO_TEST_CASE(blaze_factorisation_tests)
 
     BOOST_CHECK_EQUAL((all_tests<matrix_t>()), 0);
 }
-
-#endif
