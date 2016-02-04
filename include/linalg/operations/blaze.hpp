@@ -95,6 +95,14 @@ auto inner_prod(const blaze::DynamicVector<T, TF1>& x, const blaze::DynamicVecto
                 x.begin(), x.end(), y.begin(), value_type(0.0));
 }
 
+template <typename T, bool TF1, bool TF2>
+auto outer_prod(const blaze::DynamicVector<T, TF1>& x, const blaze::DynamicVector<T, TF2>& y)
+{
+    if (TF1 == TF2)
+        return x * trans(y);
+}
+
+
 /// \brief \f$ l_1 \f$ norm.
 template <typename T, bool TF>
 auto norm_1(const blaze::DynamicVector<T, TF>& x)
