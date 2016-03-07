@@ -11,7 +11,7 @@
 
 #include "linalg.hpp"
 #include "linalg/special_matrices.hpp"
-#include "linalg/norms.hpp"
+#include "linalg/operations.hpp"
 
 #include "test_utilities.hpp"
 

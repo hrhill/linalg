@@ -11,7 +11,6 @@
 #include "linalg/operations.hpp"
 #include "linalg/traits.hpp"
 
-#include "linalg/norms.hpp"
 #include "linalg/factorisations/cholesky.hpp"
 #include "linalg/factorisations/gmw81.hpp"
 #include "linalg/factorisations/ldlt.hpp"

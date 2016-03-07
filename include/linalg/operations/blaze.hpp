@@ -109,7 +109,7 @@ outer_prod(const blaze::DynamicVector<T, TF1>& x, const blaze::DynamicVector<T, 
 
 /// \brief \f$ l_1 \f$ norm.
 template <typename T, bool TF>
-auto norm_1(const blaze::DynamicVector<T, TF>& x)
+T norm_1(const blaze::DynamicVector<T, TF>& x)
 {
     T nx(0.0);
     for (const auto& xi : x)
@@ -119,14 +119,14 @@ auto norm_1(const blaze::DynamicVector<T, TF>& x)
 
 /// \brief \f$ l_2  \f$ norm.
 template <typename T, bool TF>
-auto norm_2(const blaze::DynamicVector<T, TF>& x)
+T norm_2(const blaze::DynamicVector<T, TF>& x)
 {
     return sqrt(inner_prod(x, x));
 }
 
 /// \brief \f$ l_p  \f$ norm.
 template <typename T, bool TF>
-auto norm_p(const blaze::DynamicVector<T, TF>& x, int p)
+T norm_p(const blaze::DynamicVector<T, TF>& x, int p)
 {
     assert(p > 0);
     T r(0.0);
@@ -137,7 +137,7 @@ auto norm_p(const blaze::DynamicVector<T, TF>& x, int p)
 
 /// \brief \f$ l_{\infty} \f$ norm.
 template <typename T, bool TF>
-auto norm_infinity(const blaze::DynamicVector<T, TF>& x)
+T norm_infinity(const blaze::DynamicVector<T, TF>& x)
 {
     T r(0.0);
     for (const auto& xi : x){
