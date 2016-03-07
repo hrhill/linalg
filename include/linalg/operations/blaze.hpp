@@ -1,8 +1,6 @@
 #ifndef LINALG_OPERATIONS_BLAZE_HPP_
 #define LINALG_OPERATIONS_BLAZE_HPP_
 
-#include "linalg/std_traits.hpp"
-
 #include <blaze/Math.h>
 
 namespace linalg{
@@ -89,10 +87,9 @@ swap(blaze::DenseRow<Matrix1<T1, SO1>>& r1, blaze::DenseRow<Matrix2<T2, SO2>>& r
 template <typename T, bool TF1, bool TF2>
 auto inner_prod(const blaze::DynamicVector<T, TF1>& x, const blaze::DynamicVector<T, TF2>& y)
 {
-    typedef remove_const_reference<decltype(x[0])> value_type;
     assert(linalg::size(x) == linalg::size(y));
     return std::inner_product(
-                x.begin(), x.end(), y.begin(), value_type(0.0));
+                x.begin(), x.end(), y.begin(), T(0.0));
 }
 
 template <typename T, bool TF1, bool TF2>
@@ -114,11 +111,10 @@ outer_prod(const blaze::DynamicVector<T, TF1>& x, const blaze::DynamicVector<T, 
 template <typename T, bool TF>
 auto norm_1(const blaze::DynamicVector<T, TF>& x)
 {
-    typedef remove_const_reference<decltype(x[0])> value_type;
-    return std::accumulate(x.begin(), x.end(), value_type(0.0),
-            [](const value_type& init, const value_type& xi){
-                return init + fabs(xi);
-            });
+    T nx(0.0);
+    for (const auto& xi : x)
+        nx += fabs(xi);
+    return nx;
 }
 
 /// \brief \f$ l_2  \f$ norm.
@@ -133,8 +129,7 @@ template <typename T, bool TF>
 auto norm_p(const blaze::DynamicVector<T, TF>& x, int p)
 {
     assert(p > 0);
-    typedef remove_const_reference<decltype(x[0])> value_type;
-    value_type r(0.0);
+    T r(0.0);
     for (const auto& xi : x)
         r += std::pow(xi, p);
     return exp(log(r)/p);
@@ -144,10 +139,9 @@ auto norm_p(const blaze::DynamicVector<T, TF>& x, int p)
 template <typename T, bool TF>
 auto norm_infinity(const blaze::DynamicVector<T, TF>& x)
 {
-    typedef remove_const_reference<decltype(x[0])> value_type;
-    value_type r(0.0);
+    T r(0.0);
     for (const auto& xi : x){
-        const value_type fxi = fabs(xi);
+        const T fxi = fabs(xi);
         if (fxi > r)
             r = fxi;
     }
