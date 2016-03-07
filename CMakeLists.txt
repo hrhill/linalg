@@ -22,14 +22,6 @@ add_subdirectory(test)
 add_subdirectory(example)
 add_subdirectory(benchmark)
 
-ExternalProject_Add(numeric_bindings
-    GIT_REPOSITORY "https://github.com/hrhill/numeric_bindings.git"
-    PREFIX "deps/numeric_bindings"
-    BINARY_DIR ${PROJ_BINARY_DIR}
-    CMAKE_ARGS
-      -DCMAKE_INSTALL_PREFIX:PATH=${PROJECT_BINARY_DIR}
-)
-
 #------------------------------------ Documentation setup ---------------------
 if(DOXYGEN_FOUND)
 configure_file(${PROJECT_SOURCE_DIR}/Doxyfile.in
