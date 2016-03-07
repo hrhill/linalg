@@ -2,7 +2,6 @@
 #define LINALG_LAPACK_BLAZE_HPP_
 
 #include <blaze/Math.h>
-#include <boost/cast.hpp>
 
 extern "C"{
     #include <cblas.h>
@@ -18,11 +17,11 @@ template <
 int
 potrf(Matrix<T, SO>& a)
 {
-    typedef Matrix<T, SO> matrix_type;
-    const int M(boost::numeric_cast<int>(a.rows()));
-    const int lda(boost::numeric_cast<int>(a.spacing()));
-    auto order = blaze::IsRowMajorMatrix<matrix_type>::value ? CblasRowMajor : CblasColMajor;
-    return clapack_dpotrf(order, CblasLower, M, a.data(), lda);
+    const int n(a.rows());
+    const int lda(a.spacing());
+    int info = 0;
+    blaze::potrf('L', n, a.data(), lda, &info);
+    return info;
 }
 
 template <
@@ -32,13 +31,13 @@ template <
 int
 potrs(Matrix<T, SO>& a, Matrix<T, SO>& b)
 {
-    typedef Matrix<T, SO> matrix_type;
-    auto order = blaze::IsRowMajorMatrix<matrix_type>::value ? CblasRowMajor : CblasColMajor;
-    const int N(boost::numeric_cast<int>(a.rows()));
-    const int NRHS(boost::numeric_cast<int>(b.columns()));
-    const int lda(boost::numeric_cast<int>(a.spacing()));
-    const int ldb(boost::numeric_cast<int>(b.spacing()));
-    return clapack_dpotrs(order, CblasLower, N, NRHS, a.data(), lda, b.data(), ldb);
+    const int n(a.rows());
+    const int nrhs(b.columns());
+    const int lda(a.spacing());
+    const int ldb(b.spacing());
+    int info = 0;
+    blaze::potrs('L', n, nrhs, a.data(), lda, b.data(), ldb, &info);
+    return info;
 }
 
 template <
@@ -48,11 +47,11 @@ template <
 int
 potri(Matrix<T, SO>& a)
 {
-    typedef Matrix<T, SO> matrix_type;
-    const int M(boost::numeric_cast<int>(a.rows()));
-    const int lda(boost::numeric_cast<int>(a.spacing()));
-    auto order = blaze::IsRowMajorMatrix<matrix_type>::value ? CblasRowMajor : CblasColMajor;
-    return clapack_dpotri(order, CblasLower, M, a.data(), lda);
+    const int m(a.rows());
+    const int lda(a.spacing());
+    int info = 0;
+    blaze::potri('L', m, a.data(), lda, &info);
+    return info;
 }
 
 template <
@@ -65,13 +64,13 @@ template <
 int
 posv(MatrixA<TA, SOA>& a, MatrixB<TB, SOB>& b)
 {
-    typedef MatrixA<TA, SOA> matrix_type;
-    auto order = blaze::IsRowMajorMatrix<matrix_type>::value ? CblasRowMajor : CblasColMajor;
-    const int N(boost::numeric_cast<int>(a.rows()));
-    const int NRHS(boost::numeric_cast<int>(b.columns()));
-    const int lda(boost::numeric_cast<int>(a.spacing()));
-    const int ldb(boost::numeric_cast<int>(b.spacing()));
-    return clapack_dposv(order, CblasLower, N, NRHS, a.data(), lda, b.data(), ldb);
+    const int n(a.rows());
+    const int nrhs(b.columns());
+    const int lda(a.spacing());
+    const int ldb(b.spacing());
+    int info = 0;
+    blaze::posv('L', n, nrhs, a.data(), lda, b.data(), ldb, &info);
+    return info;
 }
 
 template <
@@ -82,11 +81,11 @@ int
 getrf(Matrix<T, SO>& a, std::vector<int>& ipiv)
 {
     typedef Matrix<T, SO> matrix_type;
-    const int M(boost::numeric_cast<int>(a.rows()));
-    const int N(boost::numeric_cast<int>(a.columns()));
-    const int lda(boost::numeric_cast<int>(a.spacing()));
+    const int m(static_cast<int>(a.rows()));
+    const int n(static_cast<int>(a.columns()));
+    const int lda(static_cast<int>(a.spacing()));
     auto order = blaze::IsRowMajorMatrix<matrix_type>::value ? CblasRowMajor : CblasColMajor;
-    return clapack_dgetrf(order, M, N, a.data(), lda, ipiv.data());
+    return clapack_dgetrf(order, m, n, a.data(), lda, ipiv.data());
 }
 
 template <
@@ -97,10 +96,10 @@ int
 getri(Matrix<T, SO>& a, std::vector<int>& ipiv)
 {
     typedef Matrix<T, SO> matrix_type;
-    const int M(boost::numeric_cast<int>(a.rows()));
-    const int lda(boost::numeric_cast<int>(a.spacing()));
+    const int m(static_cast<int>(a.rows()));
+    const int lda(static_cast<int>(a.spacing()));
     auto order = blaze::IsRowMajorMatrix<matrix_type>::value ? CblasRowMajor : CblasColMajor;
-    return clapack_dgetri(order, M, a.data(), lda, ipiv.data());
+    return clapack_dgetri(order, m, a.data(), lda, ipiv.data());
 }
 
 template <
@@ -113,11 +112,11 @@ getrs(Matrix<T, SO>& a, std::vector<int>& ipiv, Matrix<T, SO>& b)
     typedef Matrix<T, SO> matrix_type;
     auto order = blaze::IsRowMajorMatrix<matrix_type>::value ? CblasRowMajor : CblasColMajor;
     //auto trans = blaze::IsTransExpr<matrix_type>::value ? CblasTrans : CblasNoTrans;
-    const int N(boost::numeric_cast<int>(a.rows()));
-    const int NRHS(boost::numeric_cast<int>(b.columns()));
-    const int lda(boost::numeric_cast<int>(a.spacing()));
-    const int ldb(boost::numeric_cast<int>(b.spacing()));
-    return clapack_dgetrs(order, CblasNoTrans, N, NRHS, a.data(), lda, ipiv.data(), b.data(), ldb);
+    const int n(static_cast<int>(a.rows()));
+    const int nrhs(static_cast<int>(b.columns()));
+    const int lda(static_cast<int>(a.spacing()));
+    const int ldb(static_cast<int>(b.spacing()));
+    return clapack_dgetrs(order, CblasNoTrans, n, nrhs, a.data(), lda, ipiv.data(), b.data(), ldb);
 }
 
 } // ns linalg
