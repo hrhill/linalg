@@ -3,11 +3,6 @@
 
 #include <blaze/Math.h>
 
-extern "C"{
-    #include <cblas.h>
-    #include <clapack.h>
-}
-
 namespace linalg{
 
 template <
