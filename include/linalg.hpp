@@ -4,8 +4,6 @@
 #include <vector>
 #include <stdexcept>
 
-#include <boost/cast.hpp>
-
 #include "linalg/blas.hpp"
 #include "linalg/lapack.hpp"
 #include "linalg/operations.hpp"

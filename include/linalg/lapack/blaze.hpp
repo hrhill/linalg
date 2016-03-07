@@ -80,12 +80,12 @@ template <
 int
 getrf(Matrix<T, SO>& a, std::vector<int>& ipiv)
 {
-    typedef Matrix<T, SO> matrix_type;
-    const int m(static_cast<int>(a.rows()));
-    const int n(static_cast<int>(a.columns()));
-    const int lda(static_cast<int>(a.spacing()));
-    auto order = blaze::IsRowMajorMatrix<matrix_type>::value ? CblasRowMajor : CblasColMajor;
-    return clapack_dgetrf(order, m, n, a.data(), lda, ipiv.data());
+    const int m(a.rows());
+    const int n(a.columns());
+    const int lda(a.spacing());
+    int info = 0;
+    blaze::getrf(m, n, a.data(), lda, ipiv.data(), &info);
+    return info;
 }
 
 template <
@@ -95,11 +95,18 @@ template <
 int
 getri(Matrix<T, SO>& a, std::vector<int>& ipiv)
 {
-    typedef Matrix<T, SO> matrix_type;
-    const int m(static_cast<int>(a.rows()));
-    const int lda(static_cast<int>(a.spacing()));
-    auto order = blaze::IsRowMajorMatrix<matrix_type>::value ? CblasRowMajor : CblasColMajor;
-    return clapack_dgetri(order, m, a.data(), lda, ipiv.data());
+    const int m(a.rows());
+    const int lda(a.spacing());
+    // Calculate workspace first
+    std::vector<double> work{0};
+    int info = 0;
+    blaze::getri(m, a.data(), lda, ipiv.data(), work.data(), -1, &info);
+    if (info == 0)
+    {
+        work.resize(work[0]);
+    }
+    blaze::getri(m, a.data(), lda, ipiv.data(), work.data(), work.size(), &info);
+    return info;
 }
 
 template <
@@ -109,14 +116,13 @@ template <
 int
 getrs(Matrix<T, SO>& a, std::vector<int>& ipiv, Matrix<T, SO>& b)
 {
-    typedef Matrix<T, SO> matrix_type;
-    auto order = blaze::IsRowMajorMatrix<matrix_type>::value ? CblasRowMajor : CblasColMajor;
-    //auto trans = blaze::IsTransExpr<matrix_type>::value ? CblasTrans : CblasNoTrans;
-    const int n(static_cast<int>(a.rows()));
-    const int nrhs(static_cast<int>(b.columns()));
-    const int lda(static_cast<int>(a.spacing()));
-    const int ldb(static_cast<int>(b.spacing()));
-    return clapack_dgetrs(order, CblasNoTrans, n, nrhs, a.data(), lda, ipiv.data(), b.data(), ldb);
+    const int n(a.rows());
+    const int nrhs(b.columns());
+    const int lda(a.spacing());
+    const int ldb(b.spacing());
+    int info = 0;
+    blaze::getrs('N', n, nrhs, a.data(), lda, ipiv.data(), b.data(), ldb, &info);
+    return info;
 }
 
 } // ns linalg

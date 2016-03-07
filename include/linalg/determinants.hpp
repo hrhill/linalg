@@ -5,6 +5,26 @@
 
 namespace linalg{
 
+template <
+    template <typename, bool> class Matrix,
+    typename T,
+    bool SO>
+double getrfdet(Matrix<T, SO>& a, const std::vector<int>& ipiv)
+{
+    double det = 1.0;
+    for (size_t i = 0; i < linalg::num_rows(a); ++i)
+    {
+        if (ipiv[i] == (i + 1)){
+            det *= a(i, i);
+        }else{
+            det *= -a(i, i);
+        }
+    }
+    return det;
+}
+
+
+
 /// \brief Compute the determinant, assuming that getrf has been called on m.
 template <typename Matrix>
 double getrfdet(const Matrix& a, const std::vector<int>& ipiv)
