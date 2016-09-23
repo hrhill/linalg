@@ -75,11 +75,11 @@ swap(blaze::DenseRow<Matrix1<T1, SO1>>& r1, blaze::DenseRow<Matrix2<T2, SO2>>& r
 {
     const int n = blaze::size(r1);
     std::vector<T1> tmp(n);
-    for (int i = 0; i < n; ++i)
+    for (size_t  i = 0; i < n; ++i)
         tmp[i] = r1[i];
-    for (int i = 0; i < n; ++i)
+    for (size_t  i = 0; i < n; ++i)
         r1[i] = r2[i];
-    for (int i = 0; i < n; ++i)
+    for (size_t  i = 0; i < n; ++i)
         r2[i] = tmp[i];
 }*/
 
@@ -97,9 +97,9 @@ blaze::DynamicMatrix<double>
 outer_prod(const blaze::DynamicVector<T, TF1>& x, const blaze::DynamicVector<T, TF2>& y)
 {
     blaze::DynamicMatrix<double> m(x.size(), y.size());
-    for (int i = 0; i < x.size(); ++i)
+    for (size_t  i = 0; i < x.size(); ++i)
     {
-        for (int j = 0; j < y.size(); ++j){
+        for (size_t  j = 0; j < y.size(); ++j){
             m(i, j) = x[i] * y[j];
         }
     }

@@ -74,9 +74,9 @@ void lu_tests()
 
     mt19937 rng(std::time(0));
     auto M = generate_spd_matrix<Matrix>(rng, n);
-    auto Mp = M;
+    Matrix Mp = M;
     std::vector<int> ipiv(n);
-    getrf(Mp, ipiv);
+    linalg::getrf(Mp, ipiv);
     std::cout << Mp << std::endl;
     for (int i = 0; i < n; ++i) std::cout << ipiv[i] << ",";
     std::cout << "\n";
