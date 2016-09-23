@@ -6,8 +6,6 @@ include(CheckLibraryExists)
 include(CTest)
 include(ExternalProject)
 
-set(CMAKE_CXX_COMPILER "g++-5")
-
 find_package(Boost 1.50 COMPONENTS test_exec_monitor REQUIRED)
 find_package(Doxygen)
 find_package(BLAS)
