@@ -15,18 +15,14 @@
 
 #include <iostream>
 #include <iomanip>
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/vector.hpp>
-#include <boost/numeric/ublas/assignment.hpp>
-#include <boost/numeric/ublas/io.hpp>
+#include <blaze/Math.h>
 
-#include "linalg/operations.hpp"
 #include "linalg/factorisations/gmw81.hpp"
 
 using namespace std;
 
-typedef boost::numeric::ublas::matrix<double> matrix_t;
-typedef boost::numeric::ublas::vector<double> vector_t;
+typedef blaze::DynamicMatrix<double> matrix_t;
+typedef blaze::DynamicVector<double> vector_t;
 
 void pretty_print(matrix_t m){
 
@@ -52,23 +48,19 @@ int main(){
         "|       1  1 + 10e-20   3|\n"
         "|       2       3       1|\n";
 
-    const int n = 3;
-    matrix_t G(n, n);
-    matrix_t L(n, n);
-    matrix_t D(n, n);
+    matrix_t G{{1.0, 1.0,         2.0},
+               {1.0, nextafter(1.0, 2), 3.0},
+               {2.0, 3.0,         1.0}};
 
-    G <<= 1.0, 1.0,         2.0,
-          1.0, nextafter(1.0, 2), 3.0,
-          2.0, 3.0,         1.0;
+    matrix_t L{{1.0,    0.0,    0.0},
+               {0.2652, 1.0,    0.0},
+               {0.5304, 0.4295, 1.0}};
+    matrix_t D{{3.771,   0.0, 0.0},
+               {0.0,   5.750, 0.0},
+              {0.0,     0.0, 1.121}};
 
     cout << "\nThe result of the algorithm is a lower triangular matrix L and a\n"
                  "diagonal matrix D, given by,\n\n";
-    L <<= 1.0,    0.0,    0.0,
-          0.2652, 1.0,    0.0,
-          0.5304, 0.4295, 1.0;
-    D <<= 3.771,   0.0, 0.0,
-          0.0,   5.750, 0.0,
-          0.0,     0.0, 1.121;
 
     cout << "L = \n";
     pretty_print(L);
@@ -80,8 +72,8 @@ int main(){
 
     cout << "Output from gmw81\n\n";
     matrix_t LD = linalg::factorisations::gmw81(G);
-    matrix_t d(n, n, 0.0);
-    for (int i = 0; i < n; ++i){
+    matrix_t d(3, 3, 0.0);
+    for (int i = 0; i < 3; ++i){
         d(i, i) = LD(i, i);
         LD(i, i) = 1.0;
     }

@@ -2,9 +2,7 @@
 #define LINALG_LAPACK_HPP_
 
 #include "lapack/blaze.hpp"
-#include "lapack/ublas.hpp"
 #include "operations/blaze.hpp"
-#include "operations/ublas.hpp"
 
 namespace linalg{
 

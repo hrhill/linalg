@@ -64,7 +64,7 @@ trans(const Matrix<T, SO>& M)
 {
     return blaze::trans(M);
 }
-
+/*
 template<
     template <typename, bool> class Matrix1,
     typename T1, bool SO1,
@@ -81,7 +81,7 @@ swap(blaze::DenseRow<Matrix1<T1, SO1>>& r1, blaze::DenseRow<Matrix2<T2, SO2>>& r
         r1[i] = r2[i];
     for (int i = 0; i < n; ++i)
         r2[i] = tmp[i];
-}
+}*/
 
 /// \brief Inner product
 template <typename T, bool TF1, bool TF2>

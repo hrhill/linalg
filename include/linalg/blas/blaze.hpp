@@ -2,10 +2,9 @@
 #define LINALG_BLAS_BLAZE_HPP_
 
 #include <blaze/Math.h>
+#include <blaze/math/blas/gemv.h>
 
 namespace linalg{
-
-using blaze::gemv;
 
 template <
     template <typename, bool> class MatrixType,

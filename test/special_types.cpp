@@ -6,7 +6,6 @@
 
 #include "linalg/special_matrices.hpp"
 
-#include <boost/numeric/ublas/matrix.hpp>
 #include <blaze/Math.h>
 
 using namespace linalg;
@@ -19,7 +18,6 @@ BOOST_AUTO_TEST_CASE(identity_checker)
     BOOST_CHECK_EQUAL(linalg::num_rows(a), n);
     BOOST_CHECK_EQUAL(linalg::num_cols(a), n);
 
-    boost::numeric::ublas::matrix<double> ublas_a = a;
     blaze::DynamicMatrix<double, blaze::columnMajor> blaze_a = a;
 
     for (int i = 0; i < n; ++i)
@@ -27,12 +25,11 @@ BOOST_AUTO_TEST_CASE(identity_checker)
         for (int j = 0; j < n; ++j)
         {
             const double aij = a(i, j);
-            BOOST_CHECK_EQUAL(aij, ublas_a(i, j));
             BOOST_CHECK_EQUAL(aij, blaze_a(i, j));
             if (i == j){
-                BOOST_CHECK_EQUAL(ublas_a(i, i), 1.0);
+                BOOST_CHECK_EQUAL(blaze_a(i, i), 1.0);
             }else{
-                BOOST_CHECK_EQUAL(ublas_a(i, j), 0.0);
+                BOOST_CHECK_EQUAL(blaze_a(i, j), 0.0);
             }
         }
     }
@@ -49,7 +46,6 @@ BOOST_AUTO_TEST_CASE(constant_diagonal_checker)
     BOOST_CHECK_EQUAL(linalg::num_rows(a), n);
     BOOST_CHECK_EQUAL(linalg::num_cols(a), n);
 
-    boost::numeric::ublas::matrix<double> ublas_a = a;
     blaze::DynamicMatrix<double, blaze::columnMajor> blaze_a = a;
 
     for (int i = 0; i < n; ++i)
@@ -57,12 +53,11 @@ BOOST_AUTO_TEST_CASE(constant_diagonal_checker)
         for (int j = 0; j < n; ++j)
         {
             const double aij = a(i, j);
-            BOOST_CHECK_EQUAL(aij, ublas_a(i, j));
             BOOST_CHECK_EQUAL(aij, blaze_a(i, j));
             if (i == j){
-                BOOST_CHECK_EQUAL(ublas_a(i, i), 3.3);
+                BOOST_CHECK_EQUAL(blaze_a(i, i), 3.3);
             }else{
-                BOOST_CHECK_EQUAL(ublas_a(i, j), 0.0);
+                BOOST_CHECK_EQUAL(blaze_a(i, j), 0.0);
             }
         }
     }
@@ -72,14 +67,12 @@ BOOST_AUTO_TEST_CASE(diagonal_checker)
 {
     BOOST_CHECK_THROW(diagonal_matrix(1, 2, 3),
                         std::logic_error);
-
     int n = 5;
     const diagonal_matrix a(std::vector<double>{1, 2, 3, 4, 5});
 
     BOOST_CHECK_EQUAL(linalg::num_rows(a), n);
     BOOST_CHECK_EQUAL(linalg::num_cols(a), n);
 
-    boost::numeric::ublas::matrix<double> ublas_a = a;
     blaze::DynamicMatrix<double, blaze::columnMajor> blaze_a = a;
 
     for (int i = 0; i < n; ++i)
@@ -87,12 +80,11 @@ BOOST_AUTO_TEST_CASE(diagonal_checker)
         for (int j = 0; j < n; ++j)
         {
             const double aij = a(i, j);
-            BOOST_CHECK_EQUAL(aij, ublas_a(i, j));
             BOOST_CHECK_EQUAL(aij, blaze_a(i, j));
             if (i == j){
-                BOOST_CHECK_EQUAL(ublas_a(i, i), i + 1);
+                BOOST_CHECK_EQUAL(blaze_a(i, i), i + 1);
             }else{
-                BOOST_CHECK_EQUAL(ublas_a(i, j), 0.0);
+                BOOST_CHECK_EQUAL(blaze_a(i, j), 0.0);
             }
         }
     }

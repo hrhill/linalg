@@ -3,9 +3,7 @@
 
 #include <random>
 
-#include "linalg/blas/ublas.hpp"
 #include "linalg/blas/blaze.hpp"
-#include "linalg/operations/ublas.hpp"
 #include "linalg/operations/blaze.hpp"
 
 namespace linalg{
