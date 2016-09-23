@@ -4,14 +4,11 @@
 #include <vector>
 #include <stdexcept>
 
-#include <boost/cast.hpp>
-
 #include "linalg/blas.hpp"
 #include "linalg/lapack.hpp"
 #include "linalg/operations.hpp"
 #include "linalg/traits.hpp"
 
-#include "linalg/norms.hpp"
 #include "linalg/factorisations/cholesky.hpp"
 #include "linalg/factorisations/gmw81.hpp"
 #include "linalg/factorisations/ldlt.hpp"
@@ -26,15 +23,15 @@ template <typename Matrix>
 Matrix
 select_lower_triangular(const Matrix& m){
 
-    const int nrows = linalg::num_rows(m);
-    const int ncols = linalg::num_cols(m);
+    const size_t nrows = linalg::num_rows(m);
+    const size_t ncols = linalg::num_cols(m);
 
-    const int dim = std::min(nrows, ncols);
-    const int row_offset = std::max(0, nrows - ncols);
+    const size_t dim = std::min(nrows, ncols);
+    const size_t row_offset = std::max(0UL, nrows - ncols);
     Matrix lower(dim, dim, 0.0);
 
-    for (int i = 0; i < dim; ++i){
-        for (int j = 0; j <= i; ++j){
+    for (size_t i = 0; i < dim; ++i){
+        for (size_t j = 0; j <= i; ++j){
             lower(i, j) = m(row_offset + i, j);
         }
     }
@@ -46,15 +43,15 @@ template <typename Matrix>
 Matrix
 select_upper_triangular(const Matrix& m){
 
-    const int nrows = linalg::num_rows(m);
-    const int ncols = linalg::num_cols(m);
+    const size_t nrows = linalg::num_rows(m);
+    const size_t ncols = linalg::num_cols(m);
 
-    const int dim = std::min(nrows, ncols);
-    const int col_offset = std::max(0, ncols - nrows);
+    const size_t dim = std::min(nrows, ncols);
+    const size_t col_offset = std::max(0UL, ncols - nrows);
     Matrix upper(dim, dim, 0.0);
 
-    for (int i = 0; i < dim; ++i){
-        for (int j = i; j < dim; ++j){
+    for (size_t i = 0; i < dim; ++i){
+        for (size_t j = i; j < dim; ++j){
             upper(i, j) = m(i, col_offset + j);
         }
     }
@@ -86,7 +83,7 @@ template <typename MatrixType, typename VectorType>
 VectorType
 lu_solve(MatrixType a, const VectorType& y)
 {
-    const int n = linalg::size(y);
+    const size_t n = linalg::size(y);
     MatrixType y1(n, 1, 0);
     column(y1, 0) = y;
     std::vector<int> ipiv(n, 0);
@@ -120,10 +117,10 @@ template <typename MatrixType>
 MatrixType
 lu_invert(MatrixType a)
 {
-    const int n = linalg::num_rows(a);
+    const size_t n = linalg::num_rows(a);
     std::vector<int> ipiv(n, 0);
     int info = getrf(a, ipiv);
-    if (info != 0){
+    if (info){
         throw std::runtime_error(
             "getrf failed in lu_invert " + std::to_string(info));
     }
@@ -143,7 +140,7 @@ log_cholesky_determinant(MatrixType a){
 
     // factorize
     int info = potrf(a);
-    if (info == -1)
+    if (info)
         throw std::runtime_error(
             "potrf failed in log_cholesky_determinant" + std::to_string(info));
     return log(potrfdet(a));
@@ -161,11 +158,11 @@ double
 lu_determinant(MatrixType a){
 
     // factorize
-    const int n = linalg::num_rows(a);
+    const size_t n = linalg::num_rows(a);
     std::vector<int> ipiv(n, 0);
 
     int info = getrf(a, ipiv);
-    if (info == -1)
+    if (info)
         throw std::runtime_error(
             "getrf failed in lu_determinant" + std::to_string(info));
 

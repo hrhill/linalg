@@ -4,7 +4,6 @@
 #include <cassert>
 #include <algorithm>
 
-#include "linalg/std_traits.hpp"
 #include "linalg/operations.hpp"
 #include "linalg/factorisations/tools.hpp"
 
@@ -49,9 +48,7 @@ template <typename Matrix>
 Matrix
 gmw81(Matrix G)
 {
-    using namespace boost::numeric::ublas;
-
-    typedef  remove_const_reference<decltype(G(0,0))> value_type;
+    typedef typename std::remove_reference<decltype(G(0,0))>::type value_type;
 
     // MC1
     const size_t n = linalg::num_rows(G);

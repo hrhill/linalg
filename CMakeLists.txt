@@ -11,24 +11,15 @@ find_package(Doxygen)
 find_package(BLAS)
 find_package(LAPACK)
 
-set(CMAKE_CXX_FLAGS  "-Wall -Werror -pedantic -Wfatal-errors -std=c++1y")
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -pedantic -Wfatal-errors -std=c++1y")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include"
                     "${Boost_INCLUDE_DIR}")
-link_directories("${Boost_LIBRARY_DIR}")
+link_directories("${Boost_LIBRARY_DIRS}")
 
 add_subdirectory(test)
 add_subdirectory(example)
-add_subdirectory(benchmark)
-
-ExternalProject_Add(numeric_bindings
-    GIT_REPOSITORY "https://github.com/hrhill/numeric_bindings.git"
-    PREFIX "deps/numeric_bindings"
-    BINARY_DIR ${PROJ_BINARY_DIR}
-    CMAKE_ARGS
-      -DCMAKE_INSTALL_PREFIX:PATH=${PROJECT_BINARY_DIR}
-)
 
 #------------------------------------ Documentation setup ---------------------
 if(DOXYGEN_FOUND)
