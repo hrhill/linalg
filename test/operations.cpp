@@ -26,16 +26,6 @@ int size_test()
     return 0;
 }
 
-BOOST_AUTO_TEST_CASE(ublas_operations_tests)
-{
-    std::cout << "Testing ublas\n";
-    typedef boost::numeric::ublas::vector<double> vector_t;
-    typedef boost::numeric::ublas::matrix<double,
-            boost::numeric::ublas::column_major> matrix_t;
-
-    BOOST_CHECK_EQUAL((size_test<vector_t, matrix_t>()), 0);
-}
-
 BOOST_AUTO_TEST_CASE(blaze_norm_tests)
 {
     std::cout << "Testing blaze\n";

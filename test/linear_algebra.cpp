@@ -11,7 +11,7 @@
 
 #include "linalg.hpp"
 #include "linalg/special_matrices.hpp"
-#include "linalg/norms.hpp"
+#include "linalg/operations.hpp"
 
 #include "test_utilities.hpp"
 
@@ -74,6 +74,13 @@ void lu_tests()
 
     mt19937 rng(std::time(0));
     auto M = generate_spd_matrix<Matrix>(rng, n);
+    Matrix Mp = M;
+    std::vector<int> ipiv(n);
+    linalg::getrf(Mp, ipiv);
+    std::cout << Mp << std::endl;
+    for (int i = 0; i < n; ++i) std::cout << ipiv[i] << ",";
+    std::cout << "\n";
+
     auto invM = lu_invert(M);
 
     Matrix idl(n, n, 0.0);
@@ -105,17 +112,6 @@ void lu_tests()
     // Check the determinants are 1
     BOOST_CHECK_CLOSE(lu_determinant(idl), 1.0, threshold);
     BOOST_CHECK_CLOSE(lu_determinant(idr), 1.0, threshold);
-}
-
-BOOST_AUTO_TEST_CASE(ublas_lapack_tests)
-{
-    BOOST_TEST_MESSAGE("Testing ublas");
-    typedef boost::numeric::ublas::vector<double> vector_t;
-    typedef boost::numeric::ublas::matrix<double,
-            boost::numeric::ublas::column_major> matrix_t;
-
-    cholesky_tests<vector_t, matrix_t>();
-    lu_tests<vector_t, matrix_t>();
 }
 
 BOOST_AUTO_TEST_CASE(blaze_lapack_tests)

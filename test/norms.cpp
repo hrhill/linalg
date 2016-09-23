@@ -63,18 +63,6 @@ int expr_tests()
     return 0;
 }
 
-BOOST_AUTO_TEST_CASE(ublas_norm_tests)
-{
-    std::cout << "Testing ublas\n";
-    typedef boost::numeric::ublas::vector<double> vector_t;
-    typedef boost::numeric::ublas::matrix<double,
-            boost::numeric::ublas::column_major> matrix_t;
-
-    BOOST_CHECK_EQUAL((zero_tests<vector_t, matrix_t>()), 0);
-    BOOST_CHECK_EQUAL((one_tests<vector_t, matrix_t>()), 0);
-    BOOST_CHECK_EQUAL((expr_tests<vector_t, matrix_t>()), 0);
-}
-
 BOOST_AUTO_TEST_CASE(blaze_norm_tests)
 {
     std::cout << "Testing blaze\n";
