@@ -114,17 +114,6 @@ void lu_tests()
     BOOST_CHECK_CLOSE(lu_determinant(idr), 1.0, threshold);
 }
 
-BOOST_AUTO_TEST_CASE(ublas_lapack_tests)
-{
-    BOOST_TEST_MESSAGE("Testing ublas");
-    typedef boost::numeric::ublas::vector<double> vector_t;
-    typedef boost::numeric::ublas::matrix<double,
-            boost::numeric::ublas::column_major> matrix_t;
-
-    cholesky_tests<vector_t, matrix_t>();
-    lu_tests<vector_t, matrix_t>();
-}
-
 BOOST_AUTO_TEST_CASE(blaze_lapack_tests)
 {
     BOOST_TEST_MESSAGE("Testing blaze");

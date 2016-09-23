@@ -20,7 +20,6 @@ link_directories("${Boost_LIBRARY_DIRS}")
 
 add_subdirectory(test)
 add_subdirectory(example)
-add_subdirectory(benchmark)
 
 #------------------------------------ Documentation setup ---------------------
 if(DOXYGEN_FOUND)
