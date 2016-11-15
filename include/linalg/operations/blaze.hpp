@@ -1,6 +1,7 @@
 #ifndef LINALG_OPERATIONS_BLAZE_HPP_
 #define LINALG_OPERATIONS_BLAZE_HPP_
 
+#include <numeric>
 #include <blaze/Math.h>
 
 namespace linalg{
