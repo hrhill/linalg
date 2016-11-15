@@ -1,17 +1,17 @@
 #define BOOST_TEST_MODULE norms
-#include <iostream>
-#include <random>
-#include <limits>
 #include <ctime>
+#include <iostream>
+#include <limits>
+#include <random>
 
 #include <blaze/Math.h>
 
-#include <boost/test/unit_test.hpp>
-#include <boost/test/test_tools.hpp>
 #include <boost/test/floating_point_comparison.hpp>
+#include <boost/test/test_tools.hpp>
+#include <boost/test/unit_test.hpp>
 
-#include "linalg/special_matrices.hpp"
 #include "linalg/operations.hpp"
+#include "linalg/special_matrices.hpp"
 
 #include "test_utilities.hpp"
 
@@ -20,7 +20,8 @@ using namespace std;
 const double tol = 1e-04;
 
 template <typename Vector, typename Matrix>
-int zero_tests()
+int
+zero_tests()
 {
     const int n = 5;
     Vector zero(n, 0.0);
@@ -34,7 +35,8 @@ int zero_tests()
 }
 
 template <typename Vector, typename Matrix>
-int one_tests()
+int
+one_tests()
 {
     const int n = 5;
     Vector one(n, 1.0);
@@ -47,7 +49,8 @@ int one_tests()
 }
 
 template <typename Vector, typename Matrix>
-int expr_tests()
+int
+expr_tests()
 {
     const int n = 5;
     Vector one(n, 1.0);
@@ -72,4 +75,3 @@ BOOST_AUTO_TEST_CASE(blaze_norm_tests)
     BOOST_CHECK_EQUAL((zero_tests<vector_t, matrix_t>()), 0);
     BOOST_CHECK_EQUAL((one_tests<vector_t, matrix_t>()), 0);
 }
-

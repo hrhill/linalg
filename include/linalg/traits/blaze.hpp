@@ -3,7 +3,8 @@
 
 #include <blaze/Math.h>
 
-namespace linalg{
+namespace linalg
+{
 
 template <typename T>
 struct associated_matrix;

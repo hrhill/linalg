@@ -1,8 +1,8 @@
 #define BOOST_TEST_MODULE Special types
 
-#include <boost/test/unit_test.hpp>
 #include <boost/test/floating_point_comparison.hpp>
 #include <boost/test/test_tools.hpp>
+#include <boost/test/unit_test.hpp>
 
 #include "linalg/special_matrices.hpp"
 
@@ -26,9 +26,12 @@ BOOST_AUTO_TEST_CASE(identity_checker)
         {
             const double aij = a(i, j);
             BOOST_CHECK_EQUAL(aij, blaze_a(i, j));
-            if (i == j){
+            if (i == j)
+            {
                 BOOST_CHECK_EQUAL(blaze_a(i, i), 1.0);
-            }else{
+            }
+            else
+            {
                 BOOST_CHECK_EQUAL(blaze_a(i, j), 0.0);
             }
         }
@@ -37,8 +40,7 @@ BOOST_AUTO_TEST_CASE(identity_checker)
 
 BOOST_AUTO_TEST_CASE(constant_diagonal_checker)
 {
-    BOOST_CHECK_THROW(
-        constant_diagonal_matrix(1, 2, 3), std::logic_error);
+    BOOST_CHECK_THROW(constant_diagonal_matrix(1, 2, 3), std::logic_error);
 
     int n = 5;
     const constant_diagonal_matrix a(n, 3.3);
@@ -54,9 +56,12 @@ BOOST_AUTO_TEST_CASE(constant_diagonal_checker)
         {
             const double aij = a(i, j);
             BOOST_CHECK_EQUAL(aij, blaze_a(i, j));
-            if (i == j){
+            if (i == j)
+            {
                 BOOST_CHECK_EQUAL(blaze_a(i, i), 3.3);
-            }else{
+            }
+            else
+            {
                 BOOST_CHECK_EQUAL(blaze_a(i, j), 0.0);
             }
         }
@@ -65,8 +70,7 @@ BOOST_AUTO_TEST_CASE(constant_diagonal_checker)
 
 BOOST_AUTO_TEST_CASE(diagonal_checker)
 {
-    BOOST_CHECK_THROW(diagonal_matrix(1, 2, 3),
-                        std::logic_error);
+    BOOST_CHECK_THROW(diagonal_matrix(1, 2, 3), std::logic_error);
     int n = 5;
     const diagonal_matrix a(std::vector<double>{1, 2, 3, 4, 5});
 
@@ -81,9 +85,12 @@ BOOST_AUTO_TEST_CASE(diagonal_checker)
         {
             const double aij = a(i, j);
             BOOST_CHECK_EQUAL(aij, blaze_a(i, j));
-            if (i == j){
+            if (i == j)
+            {
                 BOOST_CHECK_EQUAL(blaze_a(i, i), i + 1);
-            }else{
+            }
+            else
+            {
                 BOOST_CHECK_EQUAL(blaze_a(i, j), 0.0);
             }
         }

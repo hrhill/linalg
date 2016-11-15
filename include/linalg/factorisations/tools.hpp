@@ -5,9 +5,12 @@
 
 #include "linalg/operations.hpp"
 
-namespace linalg{
-namespace factorisations{
-namespace tools{
+namespace linalg
+{
+namespace factorisations
+{
+namespace tools
+{
 
 ///\brief Select the lower triangular part of the matrix.
 template <typename Matrix>
@@ -21,8 +24,10 @@ select_lower_triangular(const Matrix& m)
     const int row_offset = std::max(0, nrows - ncols);
     Matrix lower(dim, dim, 0.0);
 
-    for (int i = 0; i < dim; ++i){
-        for (int j = 0; j <= i; ++j){
+    for (int i = 0; i < dim; ++i)
+    {
+        for (int j = 0; j <= i; ++j)
+        {
             lower(i, j) = m(row_offset + i, j);
         }
     }
@@ -41,8 +46,10 @@ select_upper_triangular(const Matrix& m)
     const int col_offset = std::max(0, ncols - nrows);
     Matrix upper(dim, dim, 0.0);
 
-    for (int i = 0; i < dim; ++i){
-        for (int j = i; j < dim; ++j){
+    for (int i = 0; i < dim; ++i)
+    {
+        for (int j = i; j < dim; ++j)
+        {
             upper(i, j) = m(i, col_offset + j);
         }
     }
@@ -61,9 +68,10 @@ max_magnitude_diagonal(const Matrix& m)
 
     int idx = 0;
     auto mmd = fabs(m(0, 0));
-    for (int i = 1; i < n; ++i){
+    for (int i = 1; i < n; ++i)
+    {
         const auto mii = fabs(m(i, i));
-        idx = mmd < mii ?  i : idx;
+        idx = mmd < mii ? i : idx;
         mmd = idx == i ? mii : mmd;
     }
     return std::make_tuple(idx, mmd);
@@ -77,8 +85,10 @@ max_magnitude_off_diagonal(const Matrix& m)
     const int n = linalg::num_rows(m);
 
     auto mmd = fabs(m(0, 0));
-    for (int i = 0; i < n; ++i){
-        for (int j = i + 1; j < n; ++j){
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = i + 1; j < n; ++j)
+        {
             mmd = std::max(fabs(m(i, j)), mmd);
         }
     }

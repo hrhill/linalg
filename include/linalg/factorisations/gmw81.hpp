@@ -1,15 +1,18 @@
 #ifndef LINALG_FACTORISATIONS_GMW81_HPP_
 #define LINALG_FACTORISATIONS_GMW81_HPP_
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 
-#include "linalg/operations.hpp"
 #include "linalg/factorisations/tools.hpp"
+#include "linalg/operations.hpp"
 
-namespace linalg{
-namespace factorisations{
-namespace detail{
+namespace linalg
+{
+namespace factorisations
+{
+namespace detail
+{
 
 template <typename Matrix>
 auto
@@ -17,8 +20,10 @@ calculate_theta(const Matrix& c, const size_t j)
 {
     const size_t n = linalg::num_rows(c);
     auto theta(0.0);
-    if (j < n ){
-        for (size_t i = j + 1; i < n; ++i){
+    if (j < n)
+    {
+        for (size_t i = j + 1; i < n; ++i)
+        {
             theta = std::max(theta, c(i, j));
         }
     }
@@ -42,13 +47,14 @@ of the LDLt factorisation. The returned matrix has layout,
     l_{nn} & l_{n2} & \cdots   & d_{nn}\\
     \end{pmatrix}
 \f]
-\tparam Matrix Templated by matrix type, but currently restricted to Boost.Ublas.
+\tparam Matrix Templated by matrix type, but currently restricted to
+Boost.Ublas.
 **/
 template <typename Matrix>
 Matrix
 gmw81(Matrix G)
 {
-    typedef typename std::remove_reference<decltype(G(0,0))>::type value_type;
+    typedef typename std::remove_reference<decltype(G(0, 0))>::type value_type;
 
     // MC1
     const size_t n = linalg::num_rows(G);
@@ -56,50 +62,58 @@ gmw81(Matrix G)
     const value_type nu = std::max(1.0, sqrt(std::pow(n, 2) - 1.0));
     const value_type gamma = std::get<1>(tools::max_magnitude_diagonal(G));
     const value_type eta = tools::max_magnitude_off_diagonal(G);
-    const value_type beta2 = std::max({gamma, eta/nu, eps});
+    const value_type beta2 = std::max({gamma, eta / nu, eps});
     const value_type delta = sqrt(eps);
 
     // MC2
     Matrix c(n, n, 0);
     Matrix L(n, n, 0);
 
-    for (size_t i = 0; i < n; ++i){
+    for (size_t i = 0; i < n; ++i)
+    {
         c(i, i) = G(i, i);
     }
-    for (size_t j = 0; j < n; ++j){
+    for (size_t j = 0; j < n; ++j)
+    {
         // MC3
-/*
-        value_type cqq;
-        size_t q;
-        std::tie(q, cqq) = tools::max_magnitude_diagonal(matrix_range<Matrix>(c, range(j, n), range(j, n)));
+        /*
+                value_type cqq;
+                size_t q;
+                std::tie(q, cqq) =
+           tools::max_magnitude_diagonal(matrix_range<Matrix>(c, range(j, n),
+           range(j, n)));
 
-        // Pivoting
-        if (q != j){
-            matrix_row<Matrix> rowq(G, q);
-            matrix_row<Matrix> rowj(G, j);
-            rowq.swap(rowj);
+                // Pivoting
+                if (q != j){
+                    matrix_row<Matrix> rowq(G, q);
+                    matrix_row<Matrix> rowj(G, j);
+                    rowq.swap(rowj);
 
-            matrix_column<Matrix> colq(G, q);
-            matrix_column<Matrix> colj(G, j);
-            colq.swap(colj);
-        }
-*/
+                    matrix_column<Matrix> colq(G, q);
+                    matrix_column<Matrix> colj(G, j);
+                    colq.swap(colj);
+                }
+        */
         // MC4
-        for (size_t s = 0; s < j; ++s){
-            L(j, s) = c(j, s)/L(s, s);
+        for (size_t s = 0; s < j; ++s)
+        {
+            L(j, s) = c(j, s) / L(s, s);
         }
-        for (size_t i = j + 1; i < n; ++i){
+        for (size_t i = j + 1; i < n; ++i)
+        {
             c(i, j) = G(i, j);
-            for (size_t s = 0; s < j; ++s){
+            for (size_t s = 0; s < j; ++s)
+            {
                 c(i, j) -= L(j, s) * c(i, s);
             }
         }
         value_type theta = detail::calculate_theta(c, j);
         // MC 5
-        L(j, j) = std::max({delta, fabs(c(j, j)), std::pow(theta, 2)/beta2});
+        L(j, j) = std::max({delta, fabs(c(j, j)), std::pow(theta, 2) / beta2});
 
-        for (size_t i = j + 1; i < n; ++i){
-            c(i, i) -= std::pow(c(i, j), 2)/L(j, j);
+        for (size_t i = j + 1; i < n; ++i)
+        {
+            c(i, i) -= std::pow(c(i, j), 2) / L(j, j);
         }
     }
     return L;

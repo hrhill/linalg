@@ -1,8 +1,8 @@
 /// \file factorisation_test.cpp
 #include <iostream>
-#include <string>
 #include <limits>
 #include <random>
+#include <string>
 
 #include <boost/timer.hpp>
 
@@ -11,16 +11,16 @@
 #include <blaze/Math.h>
 
 #define BOOST_TEST_MODULE factorisation_test
-#include <boost/test/unit_test.hpp>
 #include <boost/test/floating_point_comparison.hpp>
 #include <boost/test/test_tools.hpp>
+#include <boost/test/unit_test.hpp>
 
 #include "linalg/blas.hpp"
-#include "linalg/operations.hpp"
 #include "linalg/factorisations/cholesky.hpp"
-#include "linalg/factorisations/ldlt.hpp"
 #include "linalg/factorisations/gmw81.hpp"
+#include "linalg/factorisations/ldlt.hpp"
 #include "linalg/factorisations/tools.hpp"
+#include "linalg/operations.hpp"
 #include "linalg/special_matrices.hpp"
 
 #include "test_utilities.hpp"
@@ -32,7 +32,8 @@ convert_to_cholesky(Matrix LD)
     int n = linalg::num_rows(LD);
     Matrix D(n, n, 0);
 
-    for (int i = 0; i < n; ++i){
+    for (int i = 0; i < n; ++i)
+    {
         D(i, i) = sqrt(LD(i, i));
         LD(i, i) = 1.0;
     }
@@ -42,7 +43,8 @@ convert_to_cholesky(Matrix LD)
 }
 
 template <typename Matrix>
-int max_magnitude_diagonal_check()
+int
+max_magnitude_diagonal_check()
 {
     const int n = 5;
     const int max_id = 3;
@@ -59,16 +61,19 @@ int max_magnitude_diagonal_check()
 }
 
 template <typename Matrix>
-int identity_matrix_check()
+int
+identity_matrix_check()
 {
     const int ndim = 5;
 
     Matrix A = linalg::identity_matrix(ndim);
     Matrix L = linalg::factorisations::gmw81(A);
     const int n = linalg::num_rows(L);
-    for (int i = 0; i < n; ++i){
+    for (int i = 0; i < n; ++i)
+    {
         BOOST_CHECK_EQUAL(L(i, i), 1.0);
-        for (int j = 0; j < i; ++j){
+        for (int j = 0; j < i; ++j)
+        {
             BOOST_CHECK_EQUAL(L(i, j), 0.0);
         }
     }
@@ -76,7 +81,8 @@ int identity_matrix_check()
 }
 
 template <typename Matrix>
-int scaled_identity_matrix_check()
+int
+scaled_identity_matrix_check()
 {
     const int ndim = 5;
     std::mt19937 rng(std::time(0));
@@ -86,9 +92,11 @@ int scaled_identity_matrix_check()
     Matrix A = d * linalg::eye(ndim);
     Matrix L = linalg::factorisations::gmw81(A);
     const int n = linalg::num_rows(L);
-    for (int i = 0; i < n; ++i){
+    for (int i = 0; i < n; ++i)
+    {
         BOOST_CHECK_EQUAL(L(i, i), d);
-        for (int j = 0; j < i; ++j){
+        for (int j = 0; j < i; ++j)
+        {
             BOOST_CHECK_EQUAL(L(i, j), 0.0);
         }
     }
@@ -96,7 +104,8 @@ int scaled_identity_matrix_check()
 }
 
 template <typename Matrix>
-int factorisation_equivalence_test()
+int
+factorisation_equivalence_test()
 {
     // Make all three factorisations agree on positive definite matrices.
     std::mt19937 rng(std::time(0));
@@ -115,18 +124,21 @@ int factorisation_equivalence_test()
     std::cout << ldlL << std::endl;
     std::cout << gmw81L << std::endl;
 
-    for (int i = 0; i < ndim; ++i){
-        for (int j = 0; j <= i; ++j){
+    for (int i = 0; i < ndim; ++i)
+    {
+        for (int j = 0; j <= i; ++j)
+        {
             BOOST_CHECK_CLOSE(ldlLD(i, j), gmw81LD(i, j), 1e-01);
             BOOST_CHECK_CLOSE(ldlL(i, j), gmw81L(i, j), 1e-01);
-            BOOST_CHECK_CLOSE(gmw81L(i, j),cholL(i, j), 1e-01);
+            BOOST_CHECK_CLOSE(gmw81L(i, j), cholL(i, j), 1e-01);
         }
     }
     return 0;
 }
 
 template <typename Matrix>
-int all_tests()
+int
+all_tests()
 {
     max_magnitude_diagonal_check<Matrix>();
     identity_matrix_check<Matrix>();

@@ -1,14 +1,14 @@
 #define BOOST_TEST_MODULE operations
-#include <iostream>
-#include <random>
-#include <limits>
 #include <ctime>
+#include <iostream>
+#include <limits>
+#include <random>
 
 #include <blaze/Math.h>
 
-#include <boost/test/unit_test.hpp>
-#include <boost/test/test_tools.hpp>
 #include <boost/test/floating_point_comparison.hpp>
+#include <boost/test/test_tools.hpp>
+#include <boost/test/unit_test.hpp>
 
 #include "linalg.hpp"
 #include "linalg/operations.hpp"
@@ -17,7 +17,8 @@ using namespace std;
 using namespace linalg;
 
 template <typename Vector, typename Matrix>
-int size_test()
+int
+size_test()
 {
     const int n = 5;
     Vector v(n, 0.0);

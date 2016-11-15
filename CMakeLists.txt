@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 2.6)
 project(LINALG)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/modules/")
+
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CTest)
-include(ExternalProject)
+include(CppCheck)
+include(ClangFormat)
 
 find_package(Boost 1.50 COMPONENTS test_exec_monitor REQUIRED)
 find_package(Doxygen)
