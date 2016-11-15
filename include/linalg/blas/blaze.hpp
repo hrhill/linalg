@@ -21,7 +21,7 @@ gemv(const T1& a,
      const T1& b,
      VectorType<T2, TF>& res)
 {
-    return blaze::gemv(res, m, v, a, b);
+    blaze::gemv(res, m, v, a, b);
 }
 
 /// gemm
