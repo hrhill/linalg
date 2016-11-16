@@ -2,7 +2,6 @@
 #define LINALG_BLAS_BLAZE_HPP_
 
 #include <blaze/Math.h>
-#include <blaze/math/blas/gemv.h>
 
 namespace linalg
 {
@@ -20,7 +19,18 @@ gemv(const T1& a,
      const T1& b,
      VectorType<T2, TF>& res)
 {
-    blaze::gemv(res, m, v, a, b);
+    if (b == 0.0)
+    {
+        res = a * m * v;
+    }
+    else
+    {
+        if (b != 1.0)
+        {
+            res *= b;
+        }
+        res += a * m * v;
+    }
 }
 
 /// gemm
@@ -38,7 +48,16 @@ gemm(const T& a,
      const T& b,
      MatrixType3<T, SO3>& C)
 {
-    blaze::gemm(C, A, B, a, b);
+    if (b == 0.0)
+    {
+        C = a * A * B;
+    }else{
+        if (b != 1.0)
+        {
+            C *= b;
+        }
+        C += a * A * B;
+    }   
 }
 
 } // ns linalg
