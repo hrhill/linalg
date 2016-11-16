@@ -3,12 +3,10 @@
 
 #include <blaze/Math.h>
 
-namespace linalg{
+namespace linalg
+{
 
-template <
-    template <typename, bool> class Matrix,
-    typename T,
-    bool SO>
+template <template <typename, bool> class Matrix, typename T, bool SO>
 int
 potrf(Matrix<T, SO>& a)
 {
@@ -19,10 +17,7 @@ potrf(Matrix<T, SO>& a)
     return info;
 }
 
-template <
-    template <typename, bool> class Matrix,
-    typename T,
-    bool SO>
+template <template <typename, bool> class Matrix, typename T, bool SO>
 int
 potrs(Matrix<T, SO>& a, Matrix<T, SO>& b)
 {
@@ -35,10 +30,7 @@ potrs(Matrix<T, SO>& a, Matrix<T, SO>& b)
     return info;
 }
 
-template <
-    template <typename, bool> class Matrix,
-    typename T,
-    bool SO>
+template <template <typename, bool> class Matrix, typename T, bool SO>
 int
 potri(Matrix<T, SO>& a)
 {
@@ -49,13 +41,12 @@ potri(Matrix<T, SO>& a)
     return info;
 }
 
-template <
-    template <typename, bool> class MatrixA,
-    template <typename, bool> class MatrixB,
-    typename TA,
-    bool SOA,
-    typename TB,
-    bool SOB>
+template <template <typename, bool> class MatrixA,
+          template <typename, bool> class MatrixB,
+          typename TA,
+          bool SOA,
+          typename TB,
+          bool SOB>
 int
 posv(MatrixA<TA, SOA>& a, MatrixB<TB, SOB>& b)
 {
@@ -68,10 +59,7 @@ posv(MatrixA<TA, SOA>& a, MatrixB<TB, SOB>& b)
     return info;
 }
 
-template <
-        template <typename, bool> class Matrix,
-        typename T,
-        bool SO>
+template <template <typename, bool> class Matrix, typename T, bool SO>
 int
 getrf(Matrix<T, SO>& a, std::vector<int>& ipiv)
 {
@@ -83,10 +71,7 @@ getrf(Matrix<T, SO>& a, std::vector<int>& ipiv)
     return info;
 }
 
-template <
-        template <typename, bool> class Matrix,
-        typename T,
-        bool SO>
+template <template <typename, bool> class Matrix, typename T, bool SO>
 int
 getri(Matrix<T, SO>& a, std::vector<int>& ipiv)
 {
@@ -100,14 +85,12 @@ getri(Matrix<T, SO>& a, std::vector<int>& ipiv)
     {
         work.resize(work[0]);
     }
-    blaze::getri(m, a.data(), lda, ipiv.data(), work.data(), work.size(), &info);
+    blaze::getri(
+        m, a.data(), lda, ipiv.data(), work.data(), work.size(), &info);
     return info;
 }
 
-template <
-        template <typename, bool> class Matrix,
-        typename T,
-        bool SO>
+template <template <typename, bool> class Matrix, typename T, bool SO>
 int
 getrs(Matrix<T, SO>& a, std::vector<int>& ipiv, Matrix<T, SO>& b)
 {
@@ -116,7 +99,8 @@ getrs(Matrix<T, SO>& a, std::vector<int>& ipiv, Matrix<T, SO>& b)
     const int lda(a.spacing());
     const int ldb(b.spacing());
     int info = 0;
-    blaze::getrs('N', n, nrhs, a.data(), lda, ipiv.data(), b.data(), ldb, &info);
+    blaze::getrs(
+        'N', n, nrhs, a.data(), lda, ipiv.data(), b.data(), ldb, &info);
     return info;
 }
 

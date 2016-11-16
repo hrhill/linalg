@@ -15,10 +15,7 @@ struct identity_matrix
 
     identity_matrix() = default;
 
-    identity_matrix(const size_type &n)
-    :
-        size_(n)
-    {}
+    identity_matrix(const size_type& n) : size_(n) {}
 
     template <typename T>
     operator T() const
@@ -29,18 +26,21 @@ struct identity_matrix
         return m;
     }
 
-    value_type operator()(const size_type &i, const size_type &j) const
+    value_type
+    operator()(const size_type& i, const size_type& j) const
     {
         assert(i < size_ && j < size_);
         return static_cast<value_type>(i == j);
     }
 
-    inline size_type size1() const
+    inline size_type
+    size1() const
     {
         return size_;
     }
 
-    inline size_type size2() const
+    inline size_type
+    size2() const
     {
         return size_;
     }
@@ -49,21 +49,23 @@ private:
     size_type size_;
 };
 
-inline size_t num_rows(const identity_matrix& m)
+inline size_t
+num_rows(const identity_matrix& m)
 {
     return m.size1();
 }
 
-inline size_t num_cols(const identity_matrix& m)
+inline size_t
+num_cols(const identity_matrix& m)
 {
     return m.size2();
 }
 
-inline constant_diagonal_matrix operator*(const double a, const identity_matrix& i)
+inline constant_diagonal_matrix operator*(const double a,
+                                          const identity_matrix& i)
 {
     return constant_diagonal_matrix(i.size1(), a);
 }
-
 }
 
 #endif

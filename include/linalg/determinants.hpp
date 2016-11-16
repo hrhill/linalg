@@ -3,20 +3,22 @@
 
 #include <vector>
 
-namespace linalg{
+namespace linalg
+{
 
-template <
-    template <typename, bool> class Matrix,
-    typename T,
-    bool SO>
-double getrfdet(Matrix<T, SO>& a, const std::vector<int>& ipiv)
+template <template <typename, bool> class Matrix, typename T, bool SO>
+double
+getrfdet(Matrix<T, SO>& a, const std::vector<int>& ipiv)
 {
     double det = 1.0;
     for (int i = 0; i < static_cast<int>(linalg::num_rows(a)); ++i)
     {
-        if (ipiv[i] == (i + 1)){
+        if (ipiv[i] == (i + 1))
+        {
             det *= a(i, i);
-        }else{
+        }
+        else
+        {
             det *= -a(i, i);
         }
     }
@@ -25,7 +27,8 @@ double getrfdet(Matrix<T, SO>& a, const std::vector<int>& ipiv)
 
 /// \brief Compute the determinant, assuming that potrf has been called on m.
 template <typename Matrix>
-double potrflogdet(const Matrix& a)
+double
+potrflogdet(const Matrix& a)
 {
     double logd = 0;
     for (size_t i = 0; i < linalg::num_rows(a); ++i)
@@ -38,11 +41,11 @@ double potrflogdet(const Matrix& a)
 
 /// \brief Compute the determinant, assuming that potrf has been called on m.
 template <typename Matrix>
-double potrfdet(const Matrix& a)
+double
+potrfdet(const Matrix& a)
 {
     return exp(potrflogdet(a));
 }
-
 }
 
 #endif
