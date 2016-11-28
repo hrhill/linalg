@@ -87,7 +87,7 @@ generate_vector(std::mt19937& rng,
 {
     Vector v(n);
     std::normal_distribution<> numsig(mean, sd);
-    auto rnorm = std::bind(numsig, std::ref(rng));
+    auto rnorm = [&rng, &numsig](){ return numsig(rng); };
     std::generate(v.begin(), v.end(), rnorm);
     return v;
 }
