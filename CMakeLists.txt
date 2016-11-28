@@ -14,7 +14,7 @@ find_package(Doxygen)
 find_package(BLAS)
 find_package(LAPACK)
 
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -pedantic -Wfatal-errors -std=c++1y")
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic -Wfatal-errors -std=c++1y")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include"

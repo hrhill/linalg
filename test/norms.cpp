@@ -17,8 +17,6 @@
 
 using namespace std;
 
-const double tol = 1e-04;
-
 template <typename Vector, typename Matrix>
 int
 zero_tests()
@@ -52,6 +50,7 @@ template <typename Vector, typename Matrix>
 int
 expr_tests()
 {
+    const double tol = 1e-04;
     const int n = 5;
     Vector one(n, 1.0);
 
