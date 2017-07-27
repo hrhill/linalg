@@ -7,7 +7,7 @@ set(TESTS norms
 
 set(LINK_LIBS ${BLAS_LIBRARIES}
               ${LAPACK_LIBRARIES}
-              ${Boost_TEST_EXEC_MONITOR_LIBRARY})
+              ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
 foreach(test ${TESTS})
     add_executable(${test} ${test}.cpp)

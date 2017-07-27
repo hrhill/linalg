@@ -1,7 +1,6 @@
 #define BOOST_TEST_MODULE Special types
+#define BOOST_TEST_DYN_LINK
 
-#include <boost/test/floating_point_comparison.hpp>
-#include <boost/test/test_tools.hpp>
 #include <boost/test/unit_test.hpp>
 
 #include "linalg/special_matrices.hpp"
