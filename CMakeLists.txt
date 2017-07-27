@@ -9,7 +9,7 @@ include(CTest)
 include(CppCheck)
 include(ClangFormat)
 
-find_package(Boost 1.50 COMPONENTS test_exec_monitor REQUIRED)
+find_package(Boost 1.50 COMPONENTS unit_test_framework REQUIRED)
 find_package(Doxygen)
 find_package(BLAS)
 find_package(LAPACK)

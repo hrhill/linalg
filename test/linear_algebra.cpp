@@ -1,12 +1,11 @@
 #define BOOST_TEST_MODULE linalg
+#define BOOST_TEST_DYN_LINK
 
 #include <ctime>
 #include <iostream>
 #include <limits>
 #include <random>
 
-#include <boost/test/floating_point_comparison.hpp>
-#include <boost/test/test_tools.hpp>
 #include <boost/test/unit_test.hpp>
 
 #include "linalg.hpp"

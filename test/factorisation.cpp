@@ -1,4 +1,6 @@
 /// \file factorisation_test.cpp
+#define BOOST_TEST_DYN_LINK
+
 #include <iostream>
 #include <limits>
 #include <random>
@@ -11,8 +13,7 @@
 #include <blaze/Math.h>
 
 #define BOOST_TEST_MODULE factorisation_test
-#include <boost/test/floating_point_comparison.hpp>
-#include <boost/test/test_tools.hpp>
+
 #include <boost/test/unit_test.hpp>
 
 #include "linalg/blas.hpp"
